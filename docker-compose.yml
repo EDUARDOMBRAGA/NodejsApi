@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  security-api:
+    image: node:12.5.0
+    network_mode: bridge
+    environment:
+      - NODE_ENV=development
+      - API_PORT=5000
+    volumes:
+      - "./api_security:/deploy"
+    working_dir: "/deploy"
+    command: bash -c "npm run clearmodule && npm install && npm run build && node dist/index.js"
+    container_name: security-api
+    ports:
+      - "5000:5000"
+
+  user-api:
+    image: node:12.5.0
+    network_mode: bridge
+    environment:
+      - NODE_ENV=development
+      - API_PORT=5001
+    volumes:
+      - "./api_user:/deploy"
+    working_dir: "/deploy"
+    command: bash -c "npm run clearmodule && npm install && npm run build && node dist/index.js"
+    container_name: user-api
+    ports:
+      - "5001:5001"
